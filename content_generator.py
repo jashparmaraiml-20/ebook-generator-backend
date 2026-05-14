@@ -389,7 +389,7 @@ async def generate_content(brief: dict) -> dict:
     async with async_playwright() as p:
         context: BrowserContext = await p.chromium.launch_persistent_context(
             SESSION_DIR,
-            headless=False,
+            headless=True,
             slow_mo=50,
             args=[
                 "--no-sandbox",

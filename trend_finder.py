@@ -41,7 +41,7 @@ async def find_trending_topic(category_label: str, audience: str) -> str:
     async with async_playwright() as p:
         context: BrowserContext = await p.chromium.launch_persistent_context(
             SESSION_DIR,
-            headless=False,
+            headless=True,
             slow_mo=50,
             args=[
                 "--no-sandbox",

@@ -336,7 +336,7 @@ async def generate_images(brief: dict, output_dir: Path) -> dict:
     async with async_playwright() as p:
         context: BrowserContext = await p.chromium.launch_persistent_context(
             SESSION_DIR,
-            headless=False,
+            headless=True,
             slow_mo=50,
             accept_downloads=True,
             args=[
