@@ -37,7 +37,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from categories import list_categories, select_category
 from categorizer import run_categorizer
-from content_generator import generate_content, save_content
+from content_generator import generate_content
 from image_generator import generate_images
 from pdf_builder import build_pdf
 from trend_finder import find_trending_topic
@@ -69,7 +69,7 @@ def run_pipeline(
         cat = select_category(category_key)
         category_key = cat["key"]
         aud = audience or "beginner"
-        topic = asyncio.run(find_trending_topic(cat["label"], aud))
+        topic = find_trending_topic(cat["label"], aud)
 
     # ── STAGE 1: CATEGORIZER ─────────────────────────────────
     brief = run_categorizer(
@@ -84,6 +84,7 @@ def run_pipeline(
     safe_title = re.sub(r'[^\w\s-]', '', brief["title"]).strip().replace(" ", "_")[:40]
     output_dir = OUTPUT_BASE / f"{timestamp}_{safe_title}"
     output_dir.mkdir(parents=True, exist_ok=True)
+    brief["output_dir"] = str(output_dir)
 
     # Save brief
     brief_file = output_dir / "brief.json"
@@ -91,11 +92,10 @@ def run_pipeline(
     print(f"  {Fore.CYAN}[SAVE] Brief → {brief_file}{Style.RESET_ALL}")
 
     # ── STAGE 2: CHATGPT CONTENT ─────────────────────────────
-    content_result = asyncio.run(generate_content(brief))
-    md_file = save_content(content_result, output_dir)
-
+    content_result = generate_content(brief)
+    
     # ── STAGE 3: GEMINI IMAGES ───────────────────────────────
-    images_result = asyncio.run(generate_images(brief, output_dir))
+    images_result = generate_images(content_result)
 
     # Save images manifest
     img_manifest = output_dir / "images_manifest.json"

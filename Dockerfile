@@ -2,21 +2,20 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Copy requirements first to leverage Docker cache
-COPY requirements.txt .
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PORT=8000
 
-# Install Python dependencies
+# Install dependencies
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install Playwright browsers and all required OS dependencies automatically
-RUN playwright install chromium
-RUN playwright install-deps chromium
-
-# Copy the rest of the application
+# Copy application code
 COPY . .
 
-# Expose the port FastAPI will run on
+# Expose port
 EXPOSE 8000
 
-# Command to run the application
-CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"]
+# Run FastAPI app
+CMD uvicorn api:app --host 0.0.0.0 --port $PORT

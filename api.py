@@ -20,54 +20,6 @@ sys.path.insert(0, str(Path(__file__).parent))
 from categories import list_categories
 from main import run_pipeline
 
-try:
-    import gdown
-    import zipfile
-except ImportError:
-    pass
-
-def download_and_extract_sessions():
-    """Download sessions from Google Drive and extract them if they don't exist."""
-    chatgpt_id = os.environ.get("SESSION_CHATGPT_ID", "1QUTk7htI3bjtBeSeuGmUvisOkeqfPUKm")
-    gemini_id = os.environ.get("SESSION_GEMINI_ID", "1-XeU0SyG0cZyrXHzN6iTz-HvrLZw_NZB")
-    
-    base_dir = Path(__file__).parent
-    
-    # Download ChatGPT session
-    if not (base_dir / "session_chatgpt").exists():
-        print("Downloading session_chatgpt.zip from Google Drive...")
-        try:
-            import gdown
-            import zipfile
-            gdown.download(id=chatgpt_id, output="session_chatgpt.zip", quiet=False)
-            with zipfile.ZipFile("session_chatgpt.zip", 'r') as zip_ref:
-                zip_ref.extractall(base_dir)
-            if os.path.exists("session_chatgpt.zip"):
-                os.remove("session_chatgpt.zip")
-            print("Successfully extracted session_chatgpt")
-        except Exception as e:
-            print(f"Failed to download/extract session_chatgpt: {e}")
-            
-    # Download Gemini session
-    if not (base_dir / "session_gemini").exists():
-        print("Downloading session_gemini.zip from Google Drive...")
-        try:
-            import gdown
-            import zipfile
-            gdown.download(id=gemini_id, output="session_gemini.zip", quiet=False)
-            with zipfile.ZipFile("session_gemini.zip", 'r') as zip_ref:
-                zip_ref.extractall(base_dir)
-            if os.path.exists("session_gemini.zip"):
-                os.remove("session_gemini.zip")
-            print("Successfully extracted session_gemini")
-        except Exception as e:
-            print(f"Failed to download/extract session_gemini: {e}")
-
-# Try to run it on startup
-try:
-    download_and_extract_sessions()
-except Exception as e:
-    print(f"Session download failed: {e}")
 
 app = FastAPI(title="Agent 5 eBook Generator API")
 

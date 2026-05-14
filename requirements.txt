@@ -1,13 +1,13 @@
-playwright
 reportlab
 markdown2
 Pillow
 colorama
 python-dotenv
+requests
+groq
+tenacity
 
 fastapi
 uvicorn
 pydantic
 python-multipart
-
-gdown
