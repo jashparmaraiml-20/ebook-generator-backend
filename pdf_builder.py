@@ -553,7 +553,7 @@ def build_pdf(content_result, images_result, output_dir, brief):
 
         # Chapter image
         ch_imgs = images_result.get("chapter_images", {})
-        ch_img = ch_imgs.get(cn) or ch_imgs.get(str(cn))
+        ch_img = ch.get("image_path") or ch_imgs.get(cn) or ch_imgs.get(str(cn))
         if ch_img:
             img = _fit_image(ch_img, max_w=CONTENT_W * 0.85, max_h=2.8*inch)
             if img:
