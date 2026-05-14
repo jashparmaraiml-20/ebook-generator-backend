@@ -100,22 +100,32 @@ def _generate_image_kie(prompt: str, output_path: str) -> bool:
                 img_url = None
                 
                 # Search everywhere for the image
-                if isinstance(task_info.get("images"), list) and len(task_info["images"]) > 0:
-                    img_url = task_info["images"][0]
-                elif isinstance(task_info.get("imageUrl"), str):
-                    img_url = task_info["imageUrl"]
-                elif isinstance(task_info.get("image_url"), str):
-                    img_url = task_info["image_url"]
-                elif isinstance(task_info.get("result"), dict):
-                    res_dict = task_info["result"]
-                    if isinstance(res_dict.get("images"), list) and len(res_dict["images"]) > 0:
-                        img_url = res_dict["images"][0]
-                    elif isinstance(res_dict.get("url"), str):
-                        img_url = res_dict["url"]
-                elif isinstance(status_data.get("images"), list) and len(status_data["images"]) > 0:
-                    img_url = status_data["images"][0]
-                elif isinstance(status_data.get("imageUrl"), str):
-                    img_url = status_data["imageUrl"]
+                if task_info.get("resultJson"):
+                    try:
+                        import json
+                        res_json = json.loads(task_info["resultJson"])
+                        if isinstance(res_json.get("resultUrls"), list) and len(res_json["resultUrls"]) > 0:
+                            img_url = res_json["resultUrls"][0]
+                    except Exception:
+                        pass
+                
+                if not img_url:
+                    if isinstance(task_info.get("images"), list) and len(task_info["images"]) > 0:
+                        img_url = task_info["images"][0]
+                    elif isinstance(task_info.get("imageUrl"), str):
+                        img_url = task_info["imageUrl"]
+                    elif isinstance(task_info.get("image_url"), str):
+                        img_url = task_info["image_url"]
+                    elif isinstance(task_info.get("result"), dict):
+                        res_dict = task_info["result"]
+                        if isinstance(res_dict.get("images"), list) and len(res_dict["images"]) > 0:
+                            img_url = res_dict["images"][0]
+                        elif isinstance(res_dict.get("url"), str):
+                            img_url = res_dict["url"]
+                    elif isinstance(status_data.get("images"), list) and len(status_data["images"]) > 0:
+                        img_url = status_data["images"][0]
+                    elif isinstance(status_data.get("imageUrl"), str):
+                        img_url = status_data["imageUrl"]
                 
                 if isinstance(img_url, dict):
                     img_url = img_url.get("url", "")
