@@ -109,7 +109,9 @@ def generate_content(brief: dict) -> dict:
             print(f"  {Fore.GREEN}[✓] Chapter {i+1} completed! ({len(content.split())} words){Style.RESET_ALL}")
             
             # Brief pause to respect API limits if not already handled by tenacity
-            time.sleep(2)
+            if i < len(chapters) - 1:
+                print(f"  {Fore.YELLOW}Waiting 50 seconds before next chapter to respect Groq rate limits...{Style.RESET_ALL}")
+                time.sleep(50)
             
         except Exception as e:
             print(f"  {Fore.RED}[ERROR] Failed to generate chapter {i+1}: {str(e)}{Style.RESET_ALL}")

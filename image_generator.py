@@ -154,6 +154,9 @@ def generate_images(brief: dict) -> dict:
             chapter["image_path"] = None
             print(f"  {Fore.RED}[x] Failed to generate image for chapter {i+1}{Style.RESET_ALL}")
             
+        if i < len(chapters) - 1:
+            time.sleep(2)
+            
     print(f"\n  {Fore.GREEN}[✓] Image generation complete!{Style.RESET_ALL}")
     
     # Save the updated brief with image paths
