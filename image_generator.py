@@ -75,43 +75,66 @@ def _generate_image_kie(prompt: str, output_path: str) -> bool:
             status_res.raise_for_status()
             status_data = status_res.json()
             
+            # Print debug info on the first attempt to help us understand the payload
+            if attempt == 0 or attempt == max_attempts - 1:
+                print(f"  {Fore.CYAN}[DEBUG] API Response: {status_data}{Style.RESET_ALL}")
+            
             # KIE AI typically returns the task status somewhere in the data object
             # Let's inspect the payload safely
             task_info = status_data.get("data", {})
-            status = task_info.get("status", "").upper()
+            if not isinstance(task_info, dict):
+                task_info = {"raw": task_info}
+                
+            # Check multiple possible status fields
+            status = str(
+                task_info.get("status", "") or 
+                task_info.get("taskStatus", "") or 
+                status_data.get("status", "") or 
+                status_data.get("taskStatus", "") or
+                task_info.get("state", "") or
+                status_data.get("state", "")
+            ).upper()
             
             if status in ["SUCCESS", "COMPLETED", "SUCCEEDED"]:
                 # Try to find the image URL in common response formats
                 img_url = None
                 
-                # Check different possible structures based on common API patterns
-                if "images" in task_info and isinstance(task_info["images"], list) and len(task_info["images"]) > 0:
+                # Search everywhere for the image
+                if isinstance(task_info.get("images"), list) and len(task_info["images"]) > 0:
                     img_url = task_info["images"][0]
-                    if isinstance(img_url, dict):
-                        img_url = img_url.get("url")
-                elif "imageUrl" in task_info:
+                elif isinstance(task_info.get("imageUrl"), str):
                     img_url = task_info["imageUrl"]
-                elif "result" in task_info and isinstance(task_info["result"], dict):
-                    result = task_info["result"]
-                    if "images" in result:
-                        img_url = result["images"][0]
-                    elif "url" in result:
-                        img_url = result["url"]
+                elif isinstance(task_info.get("image_url"), str):
+                    img_url = task_info["image_url"]
+                elif isinstance(task_info.get("result"), dict):
+                    res_dict = task_info["result"]
+                    if isinstance(res_dict.get("images"), list) and len(res_dict["images"]) > 0:
+                        img_url = res_dict["images"][0]
+                    elif isinstance(res_dict.get("url"), str):
+                        img_url = res_dict["url"]
+                elif isinstance(status_data.get("images"), list) and len(status_data["images"]) > 0:
+                    img_url = status_data["images"][0]
+                elif isinstance(status_data.get("imageUrl"), str):
+                    img_url = status_data["imageUrl"]
                 
+                if isinstance(img_url, dict):
+                    img_url = img_url.get("url", "")
+
                 if img_url:
                     print(f"  {Fore.GREEN}Image generated! Downloading...{Style.RESET_ALL}")
                     return _download_image(img_url, output_path)
                 else:
-                    print(f"  {Fore.RED}[ERROR] Task completed but couldn't find image URL in response: {status_data}{Style.RESET_ALL}")
+                    print(f"  {Fore.RED}[ERROR] Task completed but couldn't find image URL. Raw payload: {status_data}{Style.RESET_ALL}")
                     return False
                     
-            elif status in ["FAILED", "ERROR"]:
-                print(f"  {Fore.RED}[ERROR] Generation failed: {task_info.get('error', 'Unknown error')}{Style.RESET_ALL}")
+            elif status in ["FAILED", "ERROR", "FAIL"]:
+                print(f"  {Fore.RED}[ERROR] Generation failed: {status_data}{Style.RESET_ALL}")
                 return False
                 
             else:
                 # Still running
-                print(f"  {Fore.BLUE}Status: {status or 'PROCESSING'}... ({attempt+1}/{max_attempts}){Style.RESET_ALL}")
+                display_status = status if status else "PROCESSING/QUEUED"
+                print(f"  {Fore.BLUE}Status: {display_status}... ({attempt+1}/{max_attempts}){Style.RESET_ALL}")
                 
         except Exception as e:
             print(f"  {Fore.YELLOW}[WARN] Polling error: {e}. Retrying...{Style.RESET_ALL}")
