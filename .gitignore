@@ -1,0 +1,5 @@
+.env
+
+session_chatgpt/
+session_gemini/
+output/

@@ -1,0 +1,11 @@
+playwright
+reportlab
+markdown2
+Pillow
+colorama
+python-dotenv
+
+fastapi
+uvicorn
+pydantic
+python-multipart

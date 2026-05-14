@@ -1,0 +1,56 @@
+{
+  "title": "How to Start Dropshipping",
+  "subtitle": "A How-To & Step-by-Step Guides for Beginner Readers",
+  "category": "How-To & Step-by-Step Guides",
+  "category_key": "how_to_guides",
+  "description": "Practical, actionable guides that walk readers through a process",
+  "audience": "beginner",
+  "tone": "professional",
+  "num_chapters": 7,
+  "words_per_chapter": 1000,
+  "total_estimated_words": 7000,
+  "chapters": [
+    {
+      "number": 1,
+      "title": "Introduction: Why This Matters",
+      "focus": "Hook the reader, present the problem, preview the solution",
+      "target_words": 1000
+    },
+    {
+      "number": 2,
+      "title": "The Foundation: Understanding the Basics",
+      "focus": "Core concepts, terminology, mental models",
+      "target_words": 1000
+    },
+    {
+      "number": 3,
+      "title": "Getting Started: Your First Steps",
+      "focus": "Actionable first moves, minimal setup required",
+      "target_words": 1000
+    },
+    {
+      "number": 4,
+      "title": "Building Momentum: Intermediate Strategies",
+      "focus": "Level-up techniques, common pitfalls to avoid",
+      "target_words": 1000
+    },
+    {
+      "number": 5,
+      "title": "Advanced Tactics: Scaling Your Results",
+      "focus": "Power moves, optimization, automation",
+      "target_words": 1000
+    },
+    {
+      "number": 6,
+      "title": "Real-World Case Studies",
+      "focus": "Examples, success stories, lessons learned",
+      "target_words": 1000
+    },
+    {
+      "number": 7,
+      "title": "Troubleshooting: Common Mistakes & Fixes",
+      "focus": "FAQ, debugging common issues",
+      "target_words": 1000
+    }
+  ]
+}

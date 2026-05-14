@@ -1,0 +1,56 @@
+{
+  "title": "The AI Agents Blueprint: Build, Launch, and Monetize Autonomous Apps Without Coding in 30 Days",
+  "subtitle": "A Frameworks, Roadmaps & Blueprints for Parent Readers",
+  "category": "Frameworks, Roadmaps & Blueprints",
+  "category_key": "frameworks_roadmaps",
+  "description": "Strategic frameworks and roadmaps for achieving goals",
+  "audience": "parent",
+  "tone": "professional",
+  "num_chapters": 7,
+  "words_per_chapter": 1000,
+  "total_estimated_words": 7000,
+  "chapters": [
+    {
+      "number": 1,
+      "title": "The Big Picture: Where You're Headed",
+      "focus": "Vision, goals, and the end state",
+      "target_words": 1000
+    },
+    {
+      "number": 2,
+      "title": "The Framework Overview",
+      "focus": "High-level framework with all components explained",
+      "target_words": 1000
+    },
+    {
+      "number": 3,
+      "title": "Phase 1: Foundation (Days 1-30)",
+      "focus": "First month milestones and activities",
+      "target_words": 1000
+    },
+    {
+      "number": 4,
+      "title": "Phase 2: Building (Days 31-60)",
+      "focus": "Second month growth and scaling",
+      "target_words": 1000
+    },
+    {
+      "number": 5,
+      "title": "Phase 3: Acceleration (Days 61-90)",
+      "focus": "Third month optimization and results",
+      "target_words": 1000
+    },
+    {
+      "number": 6,
+      "title": "Key Metrics & Milestones",
+      "focus": "How to measure progress and success",
+      "target_words": 1000
+    },
+    {
+      "number": 7,
+      "title": "Adapting the Framework to Your Situation",
+      "focus": "Customization tips for different contexts",
+      "target_words": 1000
+    }
+  ]
+}
