@@ -1,18 +1,5 @@
 FROM python:3.11-slim
 
-# Install system dependencies needed for Playwright
-RUN apt-get update && apt-get install -y \
-    wget \
-    gnupg \
-    libgconf-2-4 \
-    libnss3 \
-    libxss1 \
-    libasound2 \
-    libatk-bridge2.0-0 \
-    libgtk-3-0 \
-    libgbm-dev \
-    && rm -rf /var/lib/apt/lists/*
-
 WORKDIR /app
 
 # Copy requirements first to leverage Docker cache
@@ -21,9 +8,9 @@ COPY requirements.txt .
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install Playwright browsers
+# Install Playwright browsers and all required OS dependencies automatically
 RUN playwright install chromium
-RUN playwright install-deps
+RUN playwright install-deps chromium
 
 # Copy the rest of the application
 COPY . .
