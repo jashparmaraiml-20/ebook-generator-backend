@@ -47,7 +47,7 @@ def _build_chapter_prompt(chapter: dict) -> str:
     return f"""Write the complete content for the following chapter:
 
     CHAPTER: {chapter['title']}
-    FOCUS POINTS: {chapter['description']}
+    FOCUS POINTS: {chapter.get('focus', 'General topics')}
     
     Ensure this chapter is long, detailed, and explores all the focus points thoroughly.
     Format the chapter with markdown headings, subheadings, bullet points, and paragraphs.
